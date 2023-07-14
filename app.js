@@ -7,6 +7,7 @@ const rideOfferController = require('./controller/rideOffer')
 const rideFindController = require('./controller/findRide')
 
 const app = express()
+app.set('view engine', 'ejs');
 
 app.use(cors())
 app.use(bodyParser.urlencoded({ extended: false }))
