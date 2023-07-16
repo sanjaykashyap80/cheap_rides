@@ -32,11 +32,10 @@ module.exports.findride = async (req, res) => {
 };
 
 // Define the route to book a ride
-// app.post('/rides/:id/book', async (req, res) => {
 module.exports.bookride = async (req, res) => {
     const { id } = req.params;
     const { userId } = req.body;
-    const usId = mongoose.Types.ObjectId(userId)
+    // const usId = mongoose.Types.ObjectId(userId)
 
     try {
         // Find the ride by its ID
@@ -51,28 +50,20 @@ module.exports.bookride = async (req, res) => {
             return res.status(400).json({ error: 'No seats available' });
         }
 
-        // Book the ride by decrementing the available seats
-        // ride.userId = userId;
-        // ride.rideId = id;
         ride.seats--;
         await ride.save();
 
         // Create a new booked ride entry in the database
         const bookedRide = new FindRideModel({
-            // rideId: ride._id,
-            // userId: userId, // Add the user ID to the booked ride entry
+            rideId: ride._id,
+            userId: userId, // Add the user ID to the booked ride entry
             departure: ride.departure,
             destination: ride.destination,
             date: ride.date,
             seats: ride.seats,
-            carName: usId,
-            carNam:usId
+            carName: "Brezza",
         });
-        // bookedRide["rideId"] = id
-        console.log("120", bookedRide)
-        //   await bookedRide.save((function(err,ride) {
-        //       console.log(err,ride);
-        //     }));
+        
         bookedRide.save((error, savedRide) => {
             if (error) {
               console.error(error);
@@ -81,33 +72,12 @@ module.exports.bookride = async (req, res) => {
             console.log("Saved bookedRide:", savedRide);
             res.json({ message: `Backend: Ride with ID ${id} booked successfully` });
           });
-        // console.log("id:", id, "userId:", userId, "bookedRide:", bookedRide);
 
-        // res.json({ message: `Backend:- Ride with ID ${id} booked successfully` });
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: 'Internal server error' });
     }
 };
 
-// module.exports.Yourride = async (req, res) => {
-//     const { carName } = req.query;
-//     console.log("req.query:", req.query);
-//     try {
-//         // Prepare the filter object based on the provided criteria
-//         const filter = {};
-//         if (carName) {
-//             filter.carName = carName;
-//         }
 
-//         // Fetch the filtered data from the database
-//         const data = await FindRideModel.find(filter);
-
-//         console.log("data:", data)
-//         res.json(data);
-//     } catch (error) {
-//         console.error(error);
-//         res.status(500).json({ error: 'Internal server error' });
-//     }
-// };
 
