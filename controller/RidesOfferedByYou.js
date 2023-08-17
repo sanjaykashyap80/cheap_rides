@@ -55,6 +55,7 @@ module.exports.updateRide = async (req, res) => {
     rideToUpdate.destination = req.body.destination;
     rideToUpdate.date = req.body.date;
     rideToUpdate.seats = req.body.seats;
+    rideToUpdate.rs = req.body.rs;
     rideToUpdate.carName = req.body.carName;
 
     // Save the updated ride
